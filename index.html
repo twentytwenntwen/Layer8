@@ -4,168 +4,134 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Layer 8 — Infrastructure Intelligence as a Service</title>
-<meta name="description" content="Layer 8 transforms telemetry, logs, MCP tools, and service state into certified operational truth for modern infrastructure teams.">
+<meta name="description" content="Layer 8 unifies infrastructure monitoring, topology, NetMon, incidents, KPI reporting, AI assistance, and operational intelligence into a single platform.">
+<meta property="og:title" content="Layer 8 — Infrastructure Intelligence as a Service">
+<meta property="og:description" content="Observe. Certify. Understand. Infrastructure intelligence for modern network and operations teams.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/dashboard.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f6df6'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial' font-size='24' font-weight='800' fill='white'%3EL8%3C/text%3E%3C/svg%3E">
 <style>
 :root{
-  --bg:#0f1527;--bg2:#11172b;--panel:#222a46;--panel2:#1a2238;--line:#34405f;--text:#eef4ff;
-  --muted:#9aa7bd;--blue:#2f73ff;--blue2:#60a5fa;--cyan:#6ee7f9;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;
-  --shadow:0 28px 80px rgba(0,0,0,.42)
+  --bg:#07101f; --bg2:#0a1426; --panel:#111b2e; --panel2:#18233a; --panel3:#202c48;
+  --line:#2b3a5d; --line2:#3a4c74; --text:#f2f7ff; --muted:#9facbf; --soft:#cbd7ea;
+  --blue:#2f6df6; --blue2:#67a6ff; --cyan:#31d7ff; --green:#24d063; --amber:#ffb020; --red:#ff4d55;
+  --shadow:0 30px 90px rgba(0,0,0,.45); --radius:22px; --max:1240px;
 }
-*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 5%,rgba(47,115,255,.18),transparent 34rem),radial-gradient(circle at 85% 12%,rgba(34,197,94,.08),transparent 28rem),linear-gradient(180deg,#0a0f1c 0%,#11172b 42%,#0b1020 100%);color:var(--text)}
-.nav{position:sticky;top:0;z-index:20;min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 30px;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(12,17,31,.86);backdrop-filter:blur(18px)}
-.brand{display:flex;align-items:center;gap:13px;font-weight:900}.status-dot{width:10px;height:10px;border-radius:99px;background:var(--green);box-shadow:0 0 20px rgba(34,197,94,.8)}.badge{padding:7px 11px;border-radius:8px;background:linear-gradient(135deg,#2f73ff,#2554d8);font-weight:950;letter-spacing:.02em}.brand small{display:block;color:var(--muted);font-weight:600;font-size:12px;margin-top:1px}.nav a{color:var(--muted);text-decoration:none;margin-left:22px;font-size:13px;font-weight:650}.nav a:hover,.nav a.contact{color:var(--blue2)}
-.wrap{max-width:1220px;margin:0 auto;padding:0 24px}.hero{min-height:calc(100vh - 66px);display:grid;grid-template-columns:.92fr 1.08fr;align-items:center;gap:48px;padding:82px 0 68px}.pill-note{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border-radius:999px;border:1px solid rgba(96,165,250,.24);background:rgba(47,115,255,.10);color:#cfe2ff;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.18em}.pill-note:before{content:"";width:8px;height:8px;border-radius:999px;background:var(--green);box-shadow:0 0 16px rgba(34,197,94,.8)}
-h1{margin:22px 0 0;font-size:clamp(52px,7vw,100px);line-height:.9;letter-spacing:-.075em}.gradient{background:linear-gradient(90deg,#fff,#9fc5ff,#6ee7f9);-webkit-background-clip:text;background-clip:text;color:transparent}.sub{margin-top:24px;max-width:660px;color:#cbd5e1;font-size:clamp(18px,1.8vw,23px);line-height:1.46}.mission{margin-top:24px;padding:16px 18px;border-radius:16px;border:1px solid rgba(96,165,250,.22);background:rgba(47,115,255,.09);color:#dceaff;font-size:18px;font-weight:850}.buttons{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:10px;border:1px solid rgba(255,255,255,.13);text-decoration:none;color:white;font-weight:850}.primary{background:linear-gradient(135deg,#2f73ff,#2151d0);border-color:rgba(96,165,250,.45)}.ghost{background:rgba(255,255,255,.04)}
-.screen{position:relative;border:1px solid rgba(255,255,255,.11);border-radius:22px;padding:10px;background:linear-gradient(180deg,rgba(34,42,70,.94),rgba(16,23,41,.88));box-shadow:var(--shadow)}.screen.hero-screen{transform:rotate(.4deg)}.screen img,.shot img{display:block;width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.08)}.mini-pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.mini-pills span{display:inline-flex;gap:7px;align-items:center;color:#cbd5e1;font-size:12px;font-weight:750}.mini-pills span:before{content:"";width:8px;height:8px;border-radius:99px;background:var(--green)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-18px;padding-bottom:62px}.stat{background:rgba(34,42,70,.86);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:20px}.num{color:#8db8ff;font-size:34px;font-weight:950;letter-spacing:-.04em}.label{color:var(--muted);margin-top:4px;font-size:13px}.section{padding:76px 0;border-top:1px solid rgba(255,255,255,.07)}h2{margin:0 0 16px;font-size:clamp(34px,4vw,58px);letter-spacing:-.045em}.lead{color:#b8c3d4;font-size:20px;line-height:1.55;max-width:860px}.kicker{color:#63a4ff;font-size:12px;font-weight:950;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}.card{background:linear-gradient(180deg,rgba(34,42,70,.93),rgba(22,29,49,.96));border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:24px;min-height:205px}.icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(47,115,255,.15);border:1px solid rgba(96,165,250,.35);font-size:22px;margin-bottom:18px}.card h3{margin:0 0 10px;font-size:21px}.card p{margin:0;color:#aeb8c8;line-height:1.52}.showcase{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:36px}.shot{border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);box-shadow:0 24px 54px rgba(0,0,0,.32)}.shot .cap{padding:16px 18px;color:#b7c1d2;border-top:1px solid rgba(255,255,255,.08);background:rgba(13,19,35,.76);font-size:14px;line-height:1.45}.cap strong{color:#eef4ff}.pillrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.pill{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);color:#cbd5e1;font-size:13px;font-weight:750}.split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;margin-top:36px}.checks{margin:22px 0 0;padding:0;list-style:none}.checks li{margin:12px 0;color:#d7e1ef}.checks li:before{content:"✓";display:inline-grid;place-items:center;width:20px;height:20px;border-radius:99px;margin-right:10px;background:rgba(34,197,94,.18);color:#67e47c;font-weight:900}.terminal{margin-top:34px;border-radius:18px;border:1px solid rgba(34,197,94,.22);background:#070b13;overflow:hidden;box-shadow:var(--shadow)}.bar{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:13px;display:flex;justify-content:space-between}pre{margin:0;padding:22px;overflow:auto;color:#d8ffe0;font-size:14px;line-height:1.55;white-space:pre-wrap}.cta{margin:70px 0 92px;padding:42px;border-radius:26px;background:radial-gradient(circle at 0% 0%,rgba(47,115,255,.34),transparent 34rem),linear-gradient(135deg,rgba(34,42,70,.98),rgba(12,18,32,.98));border:1px solid rgba(96,165,250,.23);box-shadow:var(--shadow)}footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 0;color:var(--muted);font-size:13px}.copyright{text-align:center;color:rgba(255,255,255,.48);font-size:14px;padding:28px 16px;border-top:1px solid rgba(255,255,255,.08)}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:9999;align-items:center;justify-content:center;padding:24px}.modal-card{width:100%;max-width:500px;position:relative;padding:28px;border-radius:18px;background:linear-gradient(180deg,rgba(34,42,70,.98),rgba(14,20,36,.98));border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow)}.close{position:absolute;top:14px;right:14px;background:none;border:0;color:white;font-size:26px;cursor:pointer}.form-label{display:block;margin:14px 0 6px;font-weight:800}.field{width:100%;padding:.75rem;border:1px solid #405071;border-radius:8px;background:#0c1221;color:#fff}.submit{width:100%;margin-top:18px;padding:.85rem;border:0;border-radius:8px;background:#2f73ff;color:#fff;font-weight:900;cursor:pointer}
-@media(max-width:950px){.hero,.showcase,.split{grid-template-columns:1fr}.stats,.cards{grid-template-columns:1fr 1fr}.nav{align-items:flex-start;padding:14px 20px;flex-direction:column}.nav div:last-child a{margin-left:0;margin-right:18px}}@media(max-width:600px){.stats,.cards{grid-template-columns:1fr}.nav div:last-child{display:none}h1{font-size:56px}.section{padding:58px 0}}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 14% 0%,rgba(47,109,246,.26),transparent 30rem),radial-gradient(circle at 92% 5%,rgba(36,208,99,.12),transparent 26rem),linear-gradient(180deg,var(--bg) 0%,#08111f 46%,#050a13 100%);color:var(--text)}
+a{color:inherit;text-decoration:none}.wrap{width:min(var(--max),calc(100% - 44px));margin:0 auto}.nav{position:sticky;top:0;z-index:50;height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);background:rgba(7,16,31,.78);backdrop-filter:blur(18px)}.brand{display:flex;align-items:center;gap:12px;font-weight:900}.logo{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,#3a82ff,#1e54df);box-shadow:0 0 0 1px rgba(255,255,255,.18),0 18px 38px rgba(47,109,246,.28);font-weight:950}.brand small{display:block;color:var(--muted);font-weight:600;font-size:12px;margin-top:1px}.links{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:14px}.links a:hover{color:var(--text)}.navbtn{padding:10px 14px;border:1px solid rgba(103,166,255,.32);background:linear-gradient(135deg,rgba(47,109,246,.95),rgba(33,83,213,.95));border-radius:10px;color:white;font-weight:800}.mobile-note{display:none}.hero{padding:86px 0 64px;display:grid;grid-template-columns:.86fr 1.14fr;gap:48px;align-items:center}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:#dfffea;font-size:12px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;background:rgba(36,208,99,.10);border:1px solid rgba(36,208,99,.22);border-radius:999px;padding:8px 12px}.pulse{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 20px rgba(36,208,99,.8)}h1{font-size:clamp(48px,6.3vw,88px);line-height:.92;letter-spacing:-.065em;margin:22px 0 0}.bluegrad{background:linear-gradient(90deg,#fff 0%,#b7d4ff 46%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.sub{font-size:clamp(18px,1.85vw,23px);line-height:1.48;color:#c7d2e4;margin:24px 0 0;max-width:680px}.hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);font-weight:900}.btn.primary{background:linear-gradient(135deg,var(--blue),#174fcf);border-color:rgba(103,166,255,.42);box-shadow:0 18px 48px rgba(47,109,246,.23)}.btn.ghost{background:rgba(255,255,255,.04)}.proof{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;color:#cfe8d7;font-size:13px}.proof span{display:flex;gap:8px;align-items:center}.proof i{width:15px;height:15px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#04140a;font-size:10px;font-style:normal;font-weight:900}.screen-frame{position:relative;border:1px solid rgba(103,166,255,.24);border-radius:28px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.025));box-shadow:var(--shadow)}.screen-frame:before{content:"";position:absolute;inset:-2px;border-radius:30px;background:radial-gradient(circle at 18% 0%,rgba(47,109,246,.32),transparent 26rem),radial-gradient(circle at 80% 100%,rgba(36,208,99,.18),transparent 26rem);z-index:-1}.screen-frame img,.shot img{width:100%;display:block;border-radius:18px;border:1px solid rgba(255,255,255,.08)}.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:-24px;padding-bottom:64px}.metric{background:linear-gradient(180deg,rgba(24,35,58,.94),rgba(13,22,38,.94));border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:20px}.metric b{display:block;font-size:30px;letter-spacing:-.04em;color:#dcecff}.metric span{color:var(--muted);font-size:13px}.section{padding:78px 0;border-top:1px solid rgba(255,255,255,.07)}.section-head{display:flex;justify-content:space-between;gap:28px;align-items:end;margin-bottom:32px}.kicker{color:var(--cyan);text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:950}h2{font-size:clamp(34px,4vw,56px);line-height:1;letter-spacing:-.045em;margin:10px 0 0}.lead{font-size:19px;line-height:1.55;color:#b9c5d7;max-width:820px;margin:18px 0 0}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{background:linear-gradient(180deg,rgba(24,35,58,.96),rgba(13,22,38,.96));border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:22px;min-height:190px;transition:.22s transform,.22s border-color}.card:hover{transform:translateY(-3px);border-color:rgba(103,166,255,.36)}.icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:rgba(47,109,246,.16);border:1px solid rgba(103,166,255,.28);font-size:23px;margin-bottom:16px}.card h3{font-size:20px;margin:0 0 10px}.card p{color:#aebbd0;line-height:1.52;margin:0;font-size:15px}.wide{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:center}.wide.flip{grid-template-columns:.92fr 1.08fr}.copybox{padding:22px}.shot{overflow:hidden;border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.09);box-shadow:0 24px 70px rgba(0,0,0,.32)}.shotcap{padding:16px 18px;color:#b8c4d8;border-top:1px solid rgba(255,255,255,.08);background:rgba(8,17,31,.68);font-size:14px;line-height:1.42}.feature-list{display:grid;gap:12px;margin-top:22px}.feature-list div{display:flex;gap:10px;align-items:flex-start;color:#d5e3f6}.check{flex:0 0 auto;margin-top:2px;width:19px;height:19px;border-radius:50%;display:grid;place-items:center;background:var(--green);color:#04150a;font-weight:950;font-size:12px}.vendor-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:32px}.vendor{min-height:88px;border:1px solid rgba(255,255,255,.09);background:linear-gradient(180deg,rgba(24,35,58,.84),rgba(12,21,36,.84));border-radius:18px;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;color:#d7e4f7;font-weight:850}.vendor small{display:block;color:#8fa0b9;font-weight:650;margin-top:4px}.story{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px;counter-reset:step}.step{position:relative;background:linear-gradient(180deg,rgba(24,35,58,.95),rgba(13,22,38,.95));border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:24px}.step:before{counter-increment:step;content:counter(step);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(47,109,246,.22);border:1px solid rgba(103,166,255,.3);color:#bcd6ff;font-weight:950;margin-bottom:16px}.step h3{margin:0 0 8px}.step p{margin:0;color:#aebbd0;line-height:1.48}.cta{margin:72px 0 84px;padding:42px;border-radius:28px;background:radial-gradient(circle at 0% 0%,rgba(47,109,246,.28),transparent 34rem),radial-gradient(circle at 100% 100%,rgba(36,208,99,.18),transparent 28rem),linear-gradient(135deg,rgba(24,35,58,.98),rgba(9,18,32,.98));border:1px solid rgba(103,166,255,.22);box-shadow:var(--shadow)}footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 0;color:var(--muted);font-size:13px}.footerline{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;align-items:center;justify-content:center;padding:24px}.modal-card{width:min(520px,100%);background:linear-gradient(180deg,#172238,#0d1728);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:26px;box-shadow:var(--shadow)}.modal-card label{display:block;color:#dce8fa;font-weight:850;margin:14px 0 6px}.modal-card input,.modal-card textarea{width:100%;background:#08111f;border:1px solid #2d3d60;color:#fff;border-radius:10px;padding:12px;font:inherit}.modal-card textarea{min-height:120px}.close{float:right;background:transparent;border:0;color:#dce8fa;font-size:24px;cursor:pointer}.submit{width:100%;margin-top:18px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--blue),#174fcf);color:#fff;min-height:46px;font-weight:900;cursor:pointer}@media(max-width:980px){.hero,.wide,.wide.flip{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.vendor-grid{grid-template-columns:repeat(3,1fr)}.story,.metric-row{grid-template-columns:repeat(2,1fr)}.links{display:none}.mobile-note{display:block;color:var(--muted)}}@media(max-width:580px){.wrap{width:min(100% - 28px,var(--max))}.cards,.vendor-grid,.story,.metric-row{grid-template-columns:1fr}.hero{padding-top:52px}h1{font-size:50px}.nav{height:66px}.brand small{display:none}}
 </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="brand"><span class="status-dot"></span><span class="badge">L8</span><div>Layer 8<small>Infrastructure Intelligence as a Service</small></div></div>
-  <div><a href="#platform">Platform</a><a href="#suite">Suite</a><a href="#agent">Agent</a><a href="#logs">Evidence</a><a href="#analytics">Analytics</a><a href="#architecture">Architecture</a><a class="contact" href="#" onclick="document.getElementById('contact-modal').style.display='flex';return false;">Contact for Inquiries</a></div>
-</nav>
-<main class="wrap">
-<section class="hero">
+<header class="nav">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;width:min(var(--max),calc(100% - 44px));">
+    <a class="brand" href="#top" aria-label="Layer 8 home"><span class="logo">L8</span><span>Layer 8<small>Infrastructure Intelligence as a Service</small></span></a>
+    <nav class="links" aria-label="Primary navigation"><a href="#platform">Platform</a><a href="#screens">Screens</a><a href="#integrations">Integrations</a><a href="#story">Workflow</a><a href="#contact" onclick="openContact();return false;" class="navbtn">Request Demo</a></nav>
+    <span class="mobile-note">Menu</span>
+  </div>
+</header>
+<main id="top">
+<section class="wrap hero">
   <div>
-    <div class="pill-note">Observe. Certify. Understand.</div>
-    <h1>Infrastructure Intelligence <span class="gradient">as a Service.</span></h1>
-    <p class="sub">Layer 8 turns raw telemetry, logs, MCP tools, and container state into certified operational truth. See what is healthy, what is degraded, what changed, and why it matters across your infrastructure.</p>
-    <div class="mission">Telemetry → Evidence → Certification → Truth.</div>
-    <div class="buttons"><a class="btn primary" href="#suite">Explore the Platform →</a><a class="btn ghost" href="#screens">View Screens</a></div>
-    <div class="mini-pills"><span>Real-time visibility</span><span>AI-guided insights</span><span>Certified truth</span><span>Open and extensible</span></div>
+    <div class="eyebrow"><span class="pulse"></span> Observe · Certify · Understand</div>
+    <h1>Infrastructure Intelligence <span class="bluegrad">as a Service.</span></h1>
+    <p class="sub">Layer 8 unifies network monitoring, topology, incidents, KPI reporting, service certification, and natural-language operations into one operational intelligence platform.</p>
+    <div class="hero-actions"><a class="btn primary" href="#screens">Explore the platform →</a><a class="btn ghost" href="#contact" onclick="openContact();return false;">Request demo</a></div>
+    <div class="proof"><span><i>✓</i> Vendor-neutral</span><span><i>✓</i> AI-assisted operations</span><span><i>✓</i> Executive-ready KPIs</span></div>
   </div>
-  <div class="screen hero-screen"><img src="assets/control-dashboard.png" alt="Layer 8 Control Panel dashboard"></div>
+  <div class="screen-frame"><img src="assets/dashboard.jpg" alt="Layer 8 Control Panel dashboard showing infrastructure health, alerts, uptime, monitored devices, world map, and performance overview"></div>
 </section>
-
-<section class="stats">
-  <div class="stat"><div class="num">17/17</div><div class="label">Containers running</div></div>
-  <div class="stat"><div class="num">6</div><div class="label">Core platform apps</div></div>
-  <div class="stat"><div class="num">MCP</div><div class="label">Backed data plane</div></div>
-  <div class="stat"><div class="num">AI</div><div class="label">Assisted operations</div></div>
+<section class="wrap metric-row" aria-label="Layer 8 platform highlights">
+  <div class="metric"><b>32</b><span>monitored devices</span></div>
+  <div class="metric"><b>5</b><span>enterprise sites</span></div>
+  <div class="metric"><b>100%</b><span>offering health view</span></div>
+  <div class="metric"><b>AI</b><span>assistant and layout generation</span></div>
 </section>
-
 <section id="platform" class="section">
-  <div class="kicker">Unified. Modular. Operational.</div>
-  <h2>One platform. Every signal.</h2>
-  <p class="lead">Layer 8 brings together service dashboards, live logs, topology, NetMon, MCP connectors, backups, user management, and AI-assisted analysis into a single operating environment.</p>
-  <div class="cards">
-    <div class="card"><div class="icon">🎛️</div><h3>Control</h3><p>A single console for all monitored services, app links, container health, status, users, and operational actions.</p></div>
-    <div class="card"><div class="icon">📋</div><h3>Evidence</h3><p>Live log console with search, filters, quick pivots, and event history. Raw infrastructure truth stays attached to the analysis.</p></div>
-    <div class="card"><div class="icon">📊</div><h3>Analytics</h3><p>Platform and service analytics, KPIs, trends, MCP tool usage, skill hits, and operator insights.</p></div>
-    <div class="card"><div class="icon">🤖</div><h3>AI Assistant</h3><p>Ask operational questions in plain language and get AI-guided answers grounded in services, logs, and history.</p></div>
-    <div class="card"><div class="icon">🛡️</div><h3>Certification</h3><p>AI-backed service certification with health rules, thresholds, pass/fail states, uptime validation, and incident context.</p></div>
-    <div class="card"><div class="icon">🧊</div><h3>Extensible</h3><p>MCP-backed architecture makes it easy to add integrations, custom services, and future infrastructure domains.</p></div>
-  </div>
-</section>
-
-<section id="suite" class="section">
-  <h2>The Layer 8 Suite</h2>
-  <p class="lead">A working infrastructure intelligence suite composed of apps, services, and MCP-backed data sources. Layer 8 is not just a dashboard — it is the control surface for the operating picture.</p>
-  <div class="split">
-    <div class="screen"><img src="assets/layer8-suite.png" alt="Layer 8 Suite containers"></div>
-    <div>
-      <div class="kicker">Control Panel</div>
-      <h2 style="font-size:42px">System dashboard, suite overview, and backups.</h2>
-      <ul class="checks">
-        <li>Container details with status, uptime, CPU, and memory</li>
-        <li>Central app launcher for Agent, Analytics, Syslog, NetMon, Topology, and Control Panel</li>
-        <li>Backup and restore workflows built into the operating surface</li>
-        <li>Role-based access and user management</li>
-      </ul>
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">Platform suite</div><h2>One operating layer for infrastructure health.</h2></div><p class="lead">Layer 8 brings together the operational planes teams already use separately: monitoring, topology, incidents, reporting, logs, service certification, and AI assistance.</p></div>
+    <div class="cards">
+      <div class="card"><div class="icon">🤖</div><h3>AI Agent</h3><p>Ask questions, inspect services, trigger analysis, and guide operators using context from infrastructure state.</p></div>
+      <div class="card"><div class="icon">🌐</div><h3>NetMon</h3><p>Track device, site, and service-offering health across Internet/Edge, DC/Core, Firewall, WAN, and WLAN.</p></div>
+      <div class="card"><div class="icon">🗺️</div><h3>AI Topology</h3><p>Build layered diagrams from inventory and live status, then trace north-south data paths visually.</p></div>
+      <div class="card"><div class="icon">🏗️</div><h3>Network Builder</h3><p>Define sites, subnets, device roles, and simulated inventory before syncing into monitoring.</p></div>
+      <div class="card"><div class="icon">🚨</div><h3>Incidents</h3><p>Open, resolve, filter, and report incidents from monitored states, interface events, and syslog signals.</p></div>
+      <div class="card"><div class="icon">📈</div><h3>KPI Reports</h3><p>Create leadership rollups with uptime, incidents, MTTR, color definitions, and service-level targets.</p></div>
+      <div class="card"><div class="icon">📊</div><h3>Analytics</h3><p>Summarize health, incidents, API activity, notifications, and platform utilization in one view.</p></div>
+      <div class="card"><div class="icon">💬</div><h3>Ask Layer 8</h3><p>Use natural language to ask about uptime, incidents, topology, errors, and infrastructure status.</p></div>
     </div>
   </div>
-  <div class="pillrow"><span class="pill">Control Panel</span><span class="pill">Layer 8 Agent</span><span class="pill">Analytics</span><span class="pill">Syslog Console</span><span class="pill">NetMon</span><span class="pill">Network Topology</span><span class="pill">MCP services</span><span class="pill">Postgres</span></div>
 </section>
-
-<section id="agent" class="section">
-  <div class="kicker">Certification and creation plane</div>
-  <h2>Agent turns services into certified operational state.</h2>
-  <p class="lead">Layer 8 Agent lists monitored services, evaluates health, tracks uptime, exposes MCP connections, and uses AI to build new service integrations from plain English.</p>
-  <div class="showcase" id="screens">
-    <div class="shot"><img src="assets/apps-incidents.png" alt="Layer 8 apps and incidents"><div class="cap"><strong>Apps and incidents.</strong> Internet / Edge, WAN / SD-WAN, DC / Core, LAN / WLAN, and Firewall / RA domains roll up status while incidents stay visible.</div></div>
-    <div class="shot"><img src="assets/service-wizard-describe.png" alt="AI service creation wizard"><div class="cap"><strong>AI-guided creation.</strong> Describe a device, service, or platform. Layer 8 researches the integration, selects credentials, and prepares MCP-backed monitoring.</div></div>
-    <div class="shot"><img src="assets/service-wizard-health.png" alt="AI detected health rules"><div class="cap"><strong>Health rules.</strong> AI-selected metrics, thresholds, degraded states, and down states turn telemetry into certification logic.</div></div>
-    <div class="shot"><img src="assets/containers.png" alt="Layer 8 container detail view"><div class="cap"><strong>Runtime visibility.</strong> Every app and MCP service is containerized, visible, restartable, and measurable from the Control Panel.</div></div>
+<section id="screens" class="section">
+  <div class="wrap">
+    <div class="wide">
+      <div class="shot"><img src="assets/topology.jpg" alt="Layer 8 Network Topology showing layered north-south enterprise data path"><div class="shotcap"><strong>AI Network Topology.</strong> Layered topology shows Internet/Edge/DMZ, Firewall, DC/Core, and distribution relationships across enterprise sites.</div></div>
+      <div class="copybox"><div class="kicker">Topology intelligence</div><h2>See how the infrastructure actually fits.</h2><p class="lead">Layer 8 turns inventory and service state into visual operating context. Operators can filter layers, trace paths, inspect domains, and maintain a saved topology layout.</p><div class="feature-list"><div><span class="check">✓</span>Layered views for Internet, WAN, DC, Firewall, and WLAN</div><div><span class="check">✓</span>AI-assisted layout and saved diagrams</div><div><span class="check">✓</span>Packet-flow trace from source to destination</div></div></div>
+    </div>
   </div>
 </section>
-
-<section id="logs" class="section">
-  <div class="kicker">Evidence plane</div>
-  <h2>Log Console: operational evidence.</h2>
-  <p class="lead">The Syslog Console gives Layer 8 live tailing, search, filters, severity breakdown, hostname and program targeting, quick filters, stats, and dashboard views.</p>
-  <div class="screen" style="margin-top:36px;transform:none"><img src="assets/log-console.jpeg" alt="Layer 8 Syslog Console"></div>
-  <div class="terminal"><div class="bar"><span>Layer 8 Evidence Stream</span><span>live syslog context</span></div><pre>LIVE TAIL → syslog, kernel, mcad, syswrapper, DHCP, firewall, offline events
-FILTERS   → site, severity, hostname, program, message contains, time range
-OUTPUT    → searchable operational proof for AI analysis, incidents, and certification</pre></div>
-</section>
-
-<section id="analytics" class="section">
-  <div class="kicker">Visibility plane</div>
-  <h2>Analytics: platform and service intelligence.</h2>
-  <p class="lead">Layer 8 separates operational service status from platform analytics. Operators see health posture. Leaders see usage, adoption, tool calls, skill hits, error rates, and common questions.</p>
-  <div class="showcase">
-    <div class="shot"><img src="assets/analytics-status.png" alt="Network status analytics"><div class="cap"><strong>Service posture.</strong> Internet/WAN, WLAN, camera systems, smart home, media, power, syslog, and lighting appear as certified status cards.</div></div>
-    <div class="shot"><img src="assets/analytics-platform.png" alt="Platform analytics"><div class="cap"><strong>Platform usage.</strong> Query volume, MCP tool usage, error rate, skill hits, and common questions show how Layer 8 itself is being used.</div></div>
-  </div>
-</section>
-
 <section class="section">
-  <div class="kicker">AI-guided. Context-aware.</div>
-  <h2>From data to decisions.</h2>
-  <p class="lead">The Ask interface lets operators question the environment directly: network health, open incidents, uptime, site issues, API calls, and operational history.</p>
-  <div class="split">
-    <div>
-      <ul class="checks">
-        <li>Ask questions in natural language</li>
-        <li>Get AI-powered RCA and recommendations</li>
-        <li>Correlate events, changes, and performance</li>
-        <li>Accelerate troubleshooting and reduce noise</li>
-      </ul>
-      <div class="buttons"><a class="btn primary" href="#" onclick="document.getElementById('contact-modal').style.display='flex';return false;">Request a Demo →</a></div>
+  <div class="wrap wide flip">
+    <div class="copybox"><div class="kicker">Network builder</div><h2>Model sites, devices, and services before they become production signals.</h2><p class="lead">Build or import enterprise sites, define subnets, simulate service roles, and sync clean inventory into NetMon and topology.</p><div class="feature-list"><div><span class="check">✓</span>Site cards with host role, IP, and status</div><div><span class="check">✓</span>Scan subnets and simulate devices</div><div><span class="check">✓</span>Promote inventory directly into monitoring</div></div></div>
+    <div class="shot"><img src="assets/network-builder.jpg" alt="Layer 8 Network Builder with imported sites and devices"><div class="shotcap"><strong>Network Builder.</strong> Create or import multi-site network inventory and keep it aligned with monitored infrastructure.</div></div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap wide">
+    <div class="shot"><img src="assets/netmon-overview.jpg" alt="Layer 8 NetMon overview with devices, sites, and service offerings"><div class="shotcap"><strong>NetMon overview.</strong> Site and service health rolls up into domain views for Internet/Edge, DC/Core, Firewall/Remote Access, WAN/SD-WAN, and LAN/WLAN.</div></div>
+    <div class="copybox"><div class="kicker">Monitoring</div><h2>Health by site, domain, and service offering.</h2><p class="lead">NetMon gives operators a living inventory of devices, services, reachability, and policy-driven health posture.</p><div class="feature-list"><div><span class="check">✓</span>Multi-site health rollups</div><div><span class="check">✓</span>Service-offering contributors and policies</div><div><span class="check">✓</span>Reachability and device status at a glance</div></div></div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap wide flip">
+    <div class="copybox"><div class="kicker">Incident intelligence</div><h2>Turn state changes into operational events.</h2><p class="lead">Layer 8 detects and tracks infrastructure incidents, ties them back to services, and gives teams a single place to review open, resolved, and historical events.</p><div class="feature-list"><div><span class="check">✓</span>Incident trigger configuration by service and state</div><div><span class="check">✓</span>Open/resolved counters and duration tracking</div><div><span class="check">✓</span>Filter by site, offering, and time window</div></div></div>
+    <div class="shot"><img src="assets/incidents.jpg" alt="Layer 8 incident management screen with open and resolved incidents"><div class="shotcap"><strong>Incident Center.</strong> Track interface events, syslog triggers, open items, resolved events, and MTTR-style duration.</div></div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap wide">
+    <div class="shot"><img src="assets/kpi-reports.jpg" alt="Layer 8 KPI Reports screen with service KPI targets and report generation"><div class="shotcap"><strong>KPI Reports.</strong> Convert operational data into executive-ready rollups with targets, MTTR, incident counts, and color definitions.</div></div>
+    <div class="copybox"><div class="kicker">Executive reporting</div><h2>Translate infrastructure health into leadership language.</h2><p class="lead">Layer 8 separates raw telemetry from executive signal. Operations teams define service targets while leadership sees availability, incidents, and risk.</p><div class="feature-list"><div><span class="check">✓</span>Service KPI targets and color definitions</div><div><span class="check">✓</span>Leadership rollups by domain</div><div><span class="check">✓</span>Custom date ranges and generated reports</div></div></div>
+  </div>
+</section>
+<section class="section">
+  <div class="wrap wide flip">
+    <div class="copybox"><div class="kicker">Service certification</div><h2>Certify infrastructure services instead of staring at raw dashboards.</h2><p class="lead">Layer 8 offers service-offering health cards, component services, 24-hour and 7-day availability, and domain-level certification across infrastructure categories.</p><div class="feature-list"><div><span class="check">✓</span>Top-level service-offering rollups</div><div><span class="check">✓</span>Component services with certification actions</div><div><span class="check">✓</span>Domain and contributor health policies</div></div></div>
+    <div class="shot"><img src="assets/agent-services.jpg" alt="Layer 8 Agent services dashboard with service offerings and component services"><div class="shotcap"><strong>Agent services.</strong> Certify Internet/Edge, WAN/SD-WAN, DC/Core, LAN/WLAN, Firewall/Remote Access, and component services.</div></div>
+  </div>
+</section>
+<section id="integrations" class="section">
+  <div class="wrap">
+    <div class="section-head"><div><div class="kicker">Vendor-neutral</div><h2>Connect to the infrastructure you already run.</h2></div><p class="lead">Layer 8 is designed to sit above existing platforms, not replace them. Use APIs, logs, collectors, and MCP-backed services to unify context across network, cloud, security, and operations systems.</p></div>
+    <div class="vendor-grid">
+      <div class="vendor">Cisco<small>SD-WAN · NDFC · Catalyst</small></div><div class="vendor">Palo Alto<small>Firewall · Prisma</small></div><div class="vendor">Aruba<small>Central · WLAN</small></div><div class="vendor">Opengear<small>OOB</small></div><div class="vendor">Cloudflare<small>Tunnels · Edge</small></div><div class="vendor">ServiceNow<small>Incidents</small></div><div class="vendor">Grafana / Loki<small>Logs</small></div><div class="vendor">Syslog<small>Evidence</small></div><div class="vendor">SNMP<small>Polling</small></div><div class="vendor">REST APIs<small>Custom MCPs</small></div><div class="vendor">AWS / Azure<small>Cloud</small></div><div class="vendor">VMware / Omnissa<small>Enterprise</small></div>
     </div>
-    <div class="screen"><img src="assets/ask.png" alt="Layer 8 Ask interface"></div>
   </div>
 </section>
-
-<section id="architecture" class="section">
-  <div class="kicker">Architecture</div>
-  <h2>Telemetry → Evidence → Certification → Truth.</h2>
-  <p class="lead">Layer 8 uses MCP-backed services as the data plane, Control Panel as the platform plane, Agent as the certification plane, Log Console as the evidence plane, Analytics as the visibility plane, and Ask as the AI interface.</p>
-  <div class="cards">
-    <div class="card"><div class="icon">🔌</div><h3>MCP data plane</h3><p>Connectors expose SD-WAN, NDFC, Aruba, Palo Alto, cloud, syslog, status, topology, and custom infrastructure signals.</p></div>
-    <div class="card"><div class="icon">✅</div><h3>Certification engine</h3><p>Services are evaluated with health rules, thresholds, uptime windows, and degraded/down classifications.</p></div>
-    <div class="card"><div class="icon">🐳</div><h3>Container runtime</h3><p>Layer 8 runs as a containerized suite with visibility into uptime, CPU, memory, and service restarts.</p></div>
-    <div class="card"><div class="icon">🧠</div><h3>AI assistant layer</h3><p>AI answers questions with context from services, MCP tools, live logs, incidents, topology, and analytics.</p></div>
-    <div class="card"><div class="icon">🗂️</div><h3>Backup and restore</h3><p>Operational backup history and restore procedures are surfaced in the platform, not buried in a terminal.</p></div>
-    <div class="card"><div class="icon">👥</div><h3>Admin controls</h3><p>Users, roles, passwords, and platform access are handled directly in the Control Panel.</p></div>
+<section id="story" class="section">
+  <div class="wrap">
+    <div class="kicker">See Layer 8 in action</div><h2>From signal to answer.</h2><p class="lead">Layer 8 connects telemetry, evidence, topology, and AI into a practical workflow for reducing operational noise.</p>
+    <div class="story"><div class="step"><h3>Monitor</h3><p>NetMon and service offerings track health by site, device, and infrastructure domain.</p></div><div class="step"><h3>Correlate</h3><p>Incidents, logs, topology, and inventory provide context around what changed.</p></div><div class="step"><h3>Understand</h3><p>Ask Layer 8 explains status, uptime, events, and impact in plain English.</p></div><div class="step"><h3>Report</h3><p>KPI reporting converts operational truth into leadership-ready availability and risk views.</p></div></div>
   </div>
 </section>
-
-<section class="cta">
-  <h2>Infrastructure intelligence built around operational truth.</h2>
-  <p class="lead">Layer 8 is designed for teams that need more than dashboards. It observes signals, certifies health, preserves evidence, and explains what changed.</p>
-  <div class="buttons"><a class="btn primary" href="#" onclick="document.getElementById('contact-modal').style.display='flex';return false;">Contact for Inquiries</a><a class="btn ghost" href="#platform">View Platform</a></div>
+<section class="section">
+  <div class="wrap wide">
+    <div class="shot"><img src="assets/health-overview.jpg" alt="Layer 8 analytics and health overview with recent activity and domain health"><div class="shotcap"><strong>Unified health overview.</strong> Offering uptime, health overview, recent activity, and vendor-specific rollups provide a shared operating picture.</div></div>
+    <div class="shot"><img src="assets/incident-clear.jpg" alt="Layer 8 incidents clear screen with no incidents matching filters"><div class="shotcap"><strong>All clear state.</strong> When incidents are cleared, Layer 8 reflects the operational state and gives teams confidence in the current posture.</div></div>
+  </div>
+</section>
+<section class="wrap cta">
+  <div class="kicker">Ready for Layer 8?</div><h2>Infrastructure Intelligence as a Service.</h2><p class="lead">Unify monitoring, topology, incidents, KPI reporting, and AI-assisted operations into one platform for infrastructure teams.</p><div class="hero-actions"><a class="btn primary" href="#contact" onclick="openContact();return false;">Request Demo →</a><a class="btn ghost" href="#platform">Explore features</a></div>
 </section>
 </main>
-<footer><div class="wrap">Layer 8 — Infrastructure Intelligence as a Service · Control Panel · Agent · Evidence · Analytics · Ask</div></footer>
-
-<div id="contact-modal" class="modal">
-  <div class="modal-card">
-    <button class="close" onclick="document.getElementById('contact-modal').style.display='none'">✕</button>
-    <h2 style="margin-bottom:8px;font-size:34px">Contact for Inquiries</h2>
-    <p class="lead" style="font-size:16px;margin:0 0 12px">For demos, platform discussion, or infrastructure intelligence inquiries, reach out to Layer 8.</p>
-    <form action="https://formspree.io/f/mgodpyap" method="POST">
-      <label class="form-label">Name</label><input class="field" type="text" name="name" required>
-      <label class="form-label">Email</label><input class="field" type="email" name="email" required>
-      <label class="form-label">Inquiry</label><textarea class="field" name="message" rows="5" required></textarea>
-      <button class="submit" type="submit">Send Inquiry</button>
-    </form>
-  </div>
+<footer><div class="wrap footerline"><span>© 2026 Layer 8. All rights reserved.</span><span>Infrastructure Intelligence as a Service · Observe · Certify · Understand</span></div></footer>
+<div id="contact" class="modal" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+  <div class="modal-card"><button class="close" onclick="closeContact()" aria-label="Close">×</button><h2 id="contact-title" style="margin-top:0">Request a Layer 8 demo</h2><p style="color:var(--muted);margin-top:-4px">Use this form for platform inquiries, demos, or partnership discussion.</p><form action="https://formspree.io/f/mgodpyap" method="POST"><label>Name</label><input name="name" required><label>Email</label><input type="email" name="email" required><label>Inquiry</label><textarea name="message" required></textarea><button class="submit" type="submit">Send Inquiry</button></form></div>
 </div>
-<div class="copyright">© 2026 Layer 8. All rights reserved.<br>Layer 8 platform architecture, workflows, analytics, and implementation are proprietary and confidential.</div>
+<script>
+function openContact(){document.getElementById('contact').style.display='flex'}
+function closeContact(){document.getElementById('contact').style.display='none'}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeContact()})
+document.getElementById('contact').addEventListener('click',e=>{if(e.target.id==='contact') closeContact()})
+</script>
 </body>
 </html>
